@@ -30,9 +30,7 @@ class MainWindow(QMainWindow):
 
         self.line2.move(200, 70)
         self.line2.resize(230, 30)
-        self.destination.move(20, 70)
-
-        pybutton = QPushButton('OK', self)
+        self.destination.m        pybutton = QPushButton('OK', self)
         pybutton.clicked.connect(self.clickMethod)
         pybutton.resize(200,32)
         pybutton.move(150, 110)        
@@ -40,39 +38,7 @@ class MainWindow(QMainWindow):
     def clickMethod(self):
         main_api = "https://www.mapquestapi.com/directions/v2/route?"
         key = "ZNHMGB2uNH3ZOXj0RREYyHxu4y6P5ufG"
-        console = Console()
 
-        
-        url = main_api + urllib.parse.urlencode({"key":key, "from":self.line1.text(), "to":self.line2.text()})
-        console.print("URL: " + (url))
-        json_data = requests.get(url).json()
-        json_status = json_data["info"]["statuscode"]
-        orig = self.line1.text()
-        dest = self.line2.text()
-        if json_status == 0:
-                console.print("API Status: " + str(json_status) + " =[red] A successful route call. \n")
-                console.print("===================================================================")
-                console.print("[green]Directions from " + (orig) + " to " + (dest))
-                console.print("[blue]Trip Duration:   [/]" + (json_data["route"]["formattedTime"]))
-                console.print("[blue]Kilometers:      [/]" + str("{:.2f}".format(json_data["route"]["distance"]*1.61)))
-                console.print("[blue]Fuel Used (Ltr): [/]" + str("{:.2f}".format(json_data["route"]["fuelUsed"]*3.78)))
-                console.print("===================================================================")
-                for each in json_data["route"]["legs"][0]["maneuvers"]:
-                 console.print("[yellow]" + (each["narrative"]) + " (" + str("{:.2F}".format((each["distance"])*1.61) + " km)"))
-                 console.print("===================================================================\n")
-        elif json_status == 402:
-                console.print("********************************************")
-                console.print("Status Code: " + str(json_status) + "; Invalid user inputs for one or both locations.")
-                console.print("**********************************************\n")
-        elif json_status == 611:
-                console.print("********************************************")
-                console.print("Status Code: " + str(json_status) + "; Missing an entry for one or both locations.")
-                console.print("**********************************************\n")
-        else:
-                console.print("**********************************************************************")
-                console.print("For Staus Code: " + str(json_status) + "; Refer to:")
-                console.print("https://developer.mapquest.com/documentation/directions-api/status-codes")
-                console.print("************************************************************************\n")
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
